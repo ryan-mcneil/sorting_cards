@@ -1,4 +1,5 @@
 require './lib/card'
+require 'pry'
 
 class Deck
   attr_reader :cards
@@ -11,34 +12,40 @@ class Deck
     @cards.length
   end
 
-  # def sort
-  #   values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
-  #   suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
-  #   in_order = true
-  #
-  #   i = 0
-  #   loop do
-  #     if swap
-  #     i += 1
-  #
-  #
-  #       if i == @cards.length
-  #         break
-  #       end
-  #     end
-  #   end
-  #
-  # end
+  def sort
+    sorted = false
+    #pass over entire deck until you never have to swap
+    while !sorted
+      sorted = true
+      i = 0
+      loop do
+        #for each iteration, check if they are in order.
+        if !in_order?(i)
+          #if not, swap, and tell while loop that we're not sorted
+          swap(i)
+          sorted = false
+        end
+        i += 1
+        if i == (@cards.length)-1 #run for every card, minus 1(second to last compares with last)
+          break
+        end
+      end
+    end
+  end
 
-  def in_order? (deck_index)
+
+  def in_order? (i)
     values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
     suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
-    if values.index(@cards[deck_index].value) == values.index(@cards[deck_index + 1].value)
-      suits.index(@cards[deck_index].suit) < suits.index(@cards[deck_index + 1].suit)
-    elsif values.index(@cards[deck_index].value) < values.index(@cards[deck_index + 1].value)
-      return true
+    #If Values are equal
+    if values.index(@cards[i].value) == values.index(@cards[i + 1].value)
+      #then compare suits. return value of comparison (T/F)
+      suits.index(@cards[i].suit) < suits.index(@cards[i + 1].suit)
+    #if values are in order, return true, otherwise, false
+    elsif values.index(@cards[i].value) < values.index(@cards[i + 1].value)
+      true
     else
-      return false
+      false
     end
   end
 

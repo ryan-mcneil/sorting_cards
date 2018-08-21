@@ -29,7 +29,7 @@ class DeckTest < Minitest::Test
     assert_equal 3, deck.count
   end
 
-  def test_it_checks_if_arguments_are_in_order
+  def test_it_checks_if_cards_are_in_order
     card_1 = Card.new("4","Hearts")
     card_2 = Card.new("Jack", "Clubs")
     card_3 = Card.new("5", "Diamonds")
@@ -41,14 +41,28 @@ class DeckTest < Minitest::Test
     refute deck.in_order?(3)
   end
 
-  def test_it_can_sort
-    skip
+  def test_it_can_swap_cards
     card_1 = Card.new("4","Hearts")
     card_2 = Card.new("Jack", "Clubs")
     card_3 = Card.new("5", "Diamonds")
     card_4 = Card.new("Ace", "Spades")
     card_5 = Card.new("Ace", "Diamonds")
     deck = Deck.new([card_1, card_2, card_3, card_4, card_5])
-    assert_equal [card_1, card_3, card_2, card_5, card_4], deck.sort
+    card_1_before = card_1
+    card_2_before = card_2
+    deck.swap(0)
+    assert_equal card_1_before, deck.cards[1]
+    assert_equal card_2_before, deck.cards[0]
+  end
+
+  def test_it_can_sort
+    card_1 = Card.new("4","Hearts")
+    card_2 = Card.new("Jack", "Clubs")
+    card_3 = Card.new("5", "Diamonds")
+    card_4 = Card.new("Ace", "Spades")
+    card_5 = Card.new("Ace", "Diamonds")
+    deck = Deck.new([card_1, card_2, card_3, card_4, card_5])
+    deck.sort
+    assert_equal [card_1, card_3, card_2, card_5, card_4], deck.cards
   end
 end
