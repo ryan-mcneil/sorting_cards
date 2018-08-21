@@ -18,6 +18,7 @@ class Round
     guess_string = "#{guess[:value]} of #{guess[:suit]}"
     new_guess = Guess.new(guess_string, @deck.cards[@card_location])
     @guesses << new_guess
+    @card_location = (@card_location + 1) % @deck.count
     new_guess
   end
 

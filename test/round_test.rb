@@ -23,7 +23,7 @@ class GuessTest < Minitest::Test
     assert_equal deck, round.deck
   end
 
-  def test_it_has_guesses
+  def test_guesses_starts_empty
     card_1 = Card.new("3","Hearts")
     card_2 = Card.new("4", "Clubs")
     deck = Deck.new([card_1, card_2])
@@ -47,7 +47,25 @@ class GuessTest < Minitest::Test
     actual = round.record_guess({value: "3", suit: "Hearts"})
     assert_equal "3 of Hearts", actual.response
     assert_equal card_1, actual.card
+  end
 
+  def test_current_card_changes_after_guess
+    card_1 = Card.new("3","Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    assert_equal card_2, round.current_card
+  end
+
+  def test_current_card_restarts_at_beginning_of_deck_after_reaching_end
+    card_1 = Card.new("3","Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    round.record_guess({value: "Jack", suit: "Diamonds"})
+    assert_equal card_1, round.current_card
   end
 
   def test_it_knows_correct_number_of_guesses
@@ -67,7 +85,7 @@ class GuessTest < Minitest::Test
     deck = Deck.new([card_1, card_2])
     round = Round.new(deck)
     round.record_guess({value: "3", suit: "Hearts"})
-    assert_equal 100, round.percent_correct    
+    assert_equal 100, round.percent_correct
     round.record_guess({value: "Jack", suit: "Diamonds"})
     assert_equal 50, round.percent_correct
   end
