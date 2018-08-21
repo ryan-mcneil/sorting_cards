@@ -1,6 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/guess'
+require './lib/deck'
+require './lib/round'
+require 'pry'
 
 class GuessTest < Minitest::Test
 
@@ -41,6 +44,32 @@ class GuessTest < Minitest::Test
     card_2 = Card.new("4", "Clubs")
     deck = Deck.new([card_1, card_2])
     round = Round.new(deck)
-    assert_equal card_1, round.current_card
+    actual = round.record_guess({value: "3", suit: "Hearts"})
+    assert_equal "3 of Hearts", actual.response
+    assert_equal card_1, actual.card
+
   end
+
+  def test_it_knows_correct_number_of_guesses
+    card_1 = Card.new("3","Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    assert_equal 1, round.number_correct
+    round.record_guess({value: "Jack", suit: "Diamonds"})
+    assert_equal 1, round.number_correct
+  end
+
+  def test_it_can_calculate_percent_correct
+    card_1 = Card.new("3","Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    assert_equal 100, round.percent_correct    
+    round.record_guess({value: "Jack", suit: "Diamonds"})
+    assert_equal 50, round.percent_correct
+  end
+
 end
