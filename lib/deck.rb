@@ -20,7 +20,7 @@ class Deck
       i = 0
       loop do
         #for each iteration, check if they are in order.
-        if !in_order?(i)
+        if !in_order?(@cards[i], @cards[i + 1])
           #if not, swap, and tell while loop that we're not sorted
           swap(i)
           sorted = false
@@ -34,15 +34,15 @@ class Deck
   end
 
 
-  def in_order? (i)
+  def in_order? (card_1, card_2)
     values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
     suits = ["Clubs", "Diamonds", "Hearts", "Spades"]
     #If Values are equal
-    if values.index(@cards[i].value) == values.index(@cards[i + 1].value)
+    if values.index(card_1.value) == values.index(card_2.value)
       #then compare suits. return value of comparison (T/F)
-      suits.index(@cards[i].suit) < suits.index(@cards[i + 1].suit)
+      suits.index(card_1.suit) < suits.index(card_2.suit)
     #if values are in order, return true, otherwise, false
-    elsif values.index(@cards[i].value) < values.index(@cards[i + 1].value)
+  elsif values.index(card_1.value) < values.index(card_2.value)
       true
     else
       false
@@ -55,5 +55,15 @@ class Deck
     @cards[deck_index+1] = temp
   end
 
+  # def merge(a, b)
+  #   result = []
+  #
+  #   while !a.empty? && !b.empty?
+  #     if
+  # end
+  #
+  # def merge_sort(arr = @cards)
+  #
+  # end
 
 end

@@ -36,9 +36,9 @@ class DeckTest < Minitest::Test
     card_4 = Card.new("Ace", "Spades")
     card_5 = Card.new("Ace", "Diamonds")
     deck = Deck.new([card_1, card_2, card_3, card_4, card_5])
-    assert deck.in_order?(0)
-    refute deck.in_order?(1)
-    refute deck.in_order?(3)
+    assert deck.in_order?(card_1, card_2)
+    refute deck.in_order?(card_2, card_3)
+    refute deck.in_order?(card_4, card_5)
   end
 
   def test_it_can_swap_cards
@@ -63,6 +63,30 @@ class DeckTest < Minitest::Test
     card_5 = Card.new("Ace", "Diamonds")
     deck = Deck.new([card_1, card_2, card_3, card_4, card_5])
     deck.sort
+    assert_equal [card_1, card_3, card_2, card_5, card_4], deck.cards
+  end
+
+  def test_it_can_merge
+    skip
+    card_1 = Card.new("4","Hearts")
+    card_2 = Card.new("Jack", "Clubs")
+    card_3 = Card.new("5", "Diamonds")
+    card_4 = Card.new("Ace", "Spades")
+    card_5 = Card.new("Ace", "Diamonds")
+    deck = Deck.new([card_1, card_2, card_3, card_4, card_5])
+    assert_equal [card_1, card_3, card_2, card_5, card_4], deck.merge([card_1, card_2], [card_3, card_5, card_4])
+  end
+
+
+  def test_it_can_merge_sort
+    skip
+    card_1 = Card.new("4","Hearts")
+    card_2 = Card.new("Jack", "Clubs")
+    card_3 = Card.new("5", "Diamonds")
+    card_4 = Card.new("Ace", "Spades")
+    card_5 = Card.new("Ace", "Diamonds")
+    deck = Deck.new([card_1, card_2, card_3, card_4, card_5])
+    deck.merge_sort
     assert_equal [card_1, card_3, card_2, card_5, card_4], deck.cards
   end
 end
