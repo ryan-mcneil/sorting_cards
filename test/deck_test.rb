@@ -67,7 +67,6 @@ class DeckTest < Minitest::Test
   end
 
   def test_it_can_merge
-    skip
     card_1 = Card.new("4","Hearts")
     card_2 = Card.new("Jack", "Clubs")
     card_3 = Card.new("5", "Diamonds")
@@ -79,7 +78,6 @@ class DeckTest < Minitest::Test
 
 
   def test_it_can_merge_sort
-    skip
     card_1 = Card.new("4","Hearts")
     card_2 = Card.new("Jack", "Clubs")
     card_3 = Card.new("5", "Diamonds")

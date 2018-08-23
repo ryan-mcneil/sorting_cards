@@ -55,15 +55,59 @@ class Deck
     @cards[deck_index+1] = temp
   end
 
-  # def merge(a, b)
-  #   result = []
-  #
-  #   while !a.empty? && !b.empty?
-  #     if
-  # end
-  #
-  # def merge_sort(arr = @cards)
-  #
-  # end
+  def merge(a, b)
+    result = []
+
+    #while both arrays have something in them
+    while !a.empty? && !b.empty?
+      #if they're in order, shovel a[0] into result and delete it
+      if in_order?(a[0], b[0])
+        result << a[0]
+        a.delete(a[0])
+      else
+        #otherwise do the same with b
+        result << b[0]
+        b.delete(b[0])
+      end
+    end
+    #if a is empty, b is in order and can be added to end of result
+    if a.empty?
+      result.concat(b)
+    end
+    #same same but different
+    if b.empty?
+      result.concat(a)
+    end
+
+    result
+  end
+
+  def merge_sort(arr = @cards)
+    #base case
+    if arr.length == 1
+      return arr
+    end
+    arr_1 = []
+    arr_2 = []
+
+    #split array in half(ish)
+    arr.each.with_index do |element, index|
+      if index <= arr.length/2 - 1
+        arr_1 << element
+      else
+        arr_2 << element
+      end
+    end
+    #call merge_sort on each half
+    arr_1 = merge_sort(arr_1)
+    arr_2 = merge_sort(arr_2)
+
+    #if we're at top of stack, we need to set @cards = final merge
+    if arr.length == @cards.length
+      @cards = merge(arr_1, arr_2)
+    end
+    #or just return the merged array to next level
+    merge(arr_1, arr_2)
+  end
 
 end
